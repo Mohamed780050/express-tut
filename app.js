@@ -51,6 +51,11 @@ app.post(
   },
   (req, res) => {
     const { fname, lname } = req.body;
+    // added cookie and if you left it like that without expires it will be a session cookie
+    res.cookie("fname", fname);
+    // here we can used the expires to make sure the cookie will be removed after specific time and you should write a data
+    // but for maxAge you are using duration and that maybe a lot easer since you write 5d or 1m and so on
+    res.cookie("lname", lname, { httpOnly: true });
     res.send(`thank you ${fname} ${lname} for this`);
   }
 );
