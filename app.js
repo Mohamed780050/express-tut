@@ -2,6 +2,9 @@ import express from "express";
 import dotenv from "dotenv";
 import path from "path";
 import Ajv from "ajv";
+import cookieParser from "cookie-parser";
+import helmet from "helmet";
+import ejs from "ejs";
 
 dotenv.config();
 const ajv = new Ajv();
@@ -14,6 +17,11 @@ const schema = {
     age: { type: "integer" },
   },
 };
+const students = [
+  { name: "Ali", age: 14 },
+  { name: "Ahmed", age: 18 },
+  { name: "Omer", age: 34 },
+];
 // we use this middleware because the res.body() is going to be undefined that middleware allow express to read the body that is send with the post, put and patch requests.
 // Built in middleware
 app.use(express.urlencoded({ extended: true }));
@@ -23,6 +31,17 @@ app.use(express.json());
 // to make that path available to the all route
 // Built in middleware
 app.use(express.static(path.join(process.cwd(), "public")));
+
+// if you did not use cookie parser it will not read the cookie that is in the browser
+app.use(cookieParser());
+
+// helmet is a 3rd party middleware that add some more HTTP header to secure you web you can see it from the network tab on the browser
+app.use(helmet());
+
+// setting the app
+app.set("template engine", "ejs");
+// you will have to use this line if you wanna change the views file you can make it views and let it and it will understand it with it's own
+app.set("views", "view");
 
 // Route middleware
 // after finishing this one it will go the the next because next function
@@ -56,6 +75,7 @@ app.post(
     // here we can used the expires to make sure the cookie will be removed after specific time and you should write a data
     // but for maxAge you are using duration and that maybe a lot easer since you write 5d or 1m and so on
     res.cookie("lname", lname, { httpOnly: true });
+    res.cookie("age", Buffer.from("25").toString("base64"));
     res.send(`thank you ${fname} ${lname} for this`);
   }
 );
@@ -73,5 +93,15 @@ app.get(
     res.sendFile(path.join(process.cwd(), "view/home.html"));
   }
 );
+app.get("/cookie", (req, res) => {
+  const { fname, lname, age } = req.cookies;
+  res.send(
+    `first Name is: ${fname}\nlast Name is: ${lname}\nYou are ${atob(age)}`
+  );
+});
 
+app.get("/api/students", (req, res) => {
+  res.set("Access-Control-Allow-origin", "*");
+  res.render("student.ejs", { students: students });
+});
 app.listen(port, () => console.log(`working on http://localhost:${port}`));
