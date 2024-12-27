@@ -1,4 +1,5 @@
-.evn
+.env
 node_modules
 log
 .log
+*.env

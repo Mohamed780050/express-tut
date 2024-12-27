@@ -6,6 +6,7 @@ import cookieParser from "cookie-parser";
 import helmet from "helmet";
 import ejs from "ejs";
 import student from "./routes/studentRoute.js";
+import mongoose from "mongoose";
 
 dotenv.config();
 const ajv = new Ajv();
@@ -105,4 +106,13 @@ app.get("/cookie", (req, res) => {
 //   res.set("Access-Control-Allow-origin", "*");
 //   res.render("student.ejs", { students: students });
 // });
+mongoose
+  .connect(`mongodb://localhost:27017//Employees`,{
+    // this is for new mongodb url and it is true by default.
+    useNewUrlParser: true,
+    // this is for unified topology and it is true by default and make the driver more efficient.
+    useUnifiedTopology: true,
+  })
+  .then(() => console.log("working"))
+  .catch((err) => console.log(err));
 app.listen(port, () => console.log(`working on http://localhost:${port}`));
