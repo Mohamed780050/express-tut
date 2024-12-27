@@ -5,6 +5,7 @@ import Ajv from "ajv";
 import cookieParser from "cookie-parser";
 import helmet from "helmet";
 import ejs from "ejs";
+import student from "./routes/studentRoute.js";
 
 dotenv.config();
 const ajv = new Ajv();
@@ -50,7 +51,7 @@ app.all("^/$|home(.html)?", (req, res, next) => {
   console.log("req received");
   next();
 });
-
+app.use("/api/students", student);
 app.get(
   "/signin(.html)?",
   (req, res, next) => {
@@ -100,8 +101,8 @@ app.get("/cookie", (req, res) => {
   );
 });
 
-app.get("/api/students", (req, res) => {
-  res.set("Access-Control-Allow-origin", "*");
-  res.render("student.ejs", { students: students });
-});
+// app.get("/api/students", (req, res) => {
+//   res.set("Access-Control-Allow-origin", "*");
+//   res.render("student.ejs", { students: students });
+// });
 app.listen(port, () => console.log(`working on http://localhost:${port}`));

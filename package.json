@@ -20,6 +20,7 @@
     "express-tut": "file:",
     "helmet": "^8.0.0",
     "jsonwebtoken": "^9.0.2",
+    "mongoose": "^8.9.2",
     "restfull-api": "file:"
   },
   "devDependencies": {
