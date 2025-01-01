@@ -125,5 +125,13 @@ const StudentModel = new mongoose.model("Employee", studentSchema, "Employee");
 StudentModel.find()
   .then((result) => console.log(result))
   .catch((err) => console.log(err));
-StudentModel.find().where("name").equals("mohamed").then((result) => console.log(result));
+StudentModel.find({ name: /^m/ })
+  .select({ name: 1 })
+  .sort({ name: 1 })
+  .then((result) => console.log(result));
+StudentModel.find()
+  .or({ name: "mohamed" }, { name: "omer" })
+  .select({ name: 1 })
+  .sort({ name: 1 })
+  .then((result) => console.log(result));
 app.listen(port, () => console.log(`working on http://localhost:${port}`));
