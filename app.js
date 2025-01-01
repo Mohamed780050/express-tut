@@ -107,7 +107,7 @@ app.get("/cookie", (req, res) => {
 //   res.render("student.ejs", { students: students });
 // });
 mongoose
-  .connect(`mongodb://localhost:27017//Employees`,{
+  .connect(`mongodb://localhost:27017/Employees`, {
     // this is for new mongodb url and it is true by default.
     useNewUrlParser: true,
     // this is for unified topology and it is true by default and make the driver more efficient.
@@ -115,4 +115,15 @@ mongoose
   })
   .then(() => console.log("working"))
   .catch((err) => console.log(err));
+const studentSchema = new mongoose.Schema({
+  name: String,
+  age: Number,
+});
+// making a model and that model is the object that will be used to do the CRUD operations.
+const StudentModel = new mongoose.model("Employee", studentSchema, "Employee");
+
+StudentModel.find()
+  .then((result) => console.log(result))
+  .catch((err) => console.log(err));
+StudentModel.find().where("name").equals("mohamed").then((result) => console.log(result));
 app.listen(port, () => console.log(`working on http://localhost:${port}`));
