@@ -19,9 +19,12 @@ class Student {
   }
   async saveStudent() {
     try {
-      await fs.appendFile(
+      console.log({ id: this.id, name: this.name, age: this.age });
+      const users = await Student.getStudents();
+      users.push({ id: this.id, name: this.name, age: this.age });
+      await fs.writeFile(
         path.join(process.cwd(), "data", "data.json"),
-        JSON.stringify({ id: this.id, name: this.name, age: this.age })
+        JSON.stringify(users)
       );
     } catch (err) {
       console.log(err);

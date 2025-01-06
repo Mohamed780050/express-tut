@@ -106,32 +106,34 @@ app.get("/cookie", (req, res) => {
 //   res.set("Access-Control-Allow-origin", "*");
 //   res.render("student.ejs", { students: students });
 // });
-mongoose
-  .connect(`mongodb://localhost:27017/Employees`, {
-    // this is for new mongodb url and it is true by default.
-    useNewUrlParser: true,
-    // this is for unified topology and it is true by default and make the driver more efficient.
-    useUnifiedTopology: true,
-  })
-  .then(() => console.log("working"))
-  .catch((err) => console.log(err));
-const studentSchema = new mongoose.Schema({
-  name: String,
-  age: Number,
-});
-// making a model and that model is the object that will be used to do the CRUD operations.
-const StudentModel = new mongoose.model("Employee", studentSchema, "Employee");
+// mongoose
+//   .connect(`mongodb://localhost:27017/Employees`, {
+//     // this is for new mongodb url and it is true by default.
+//     useNewUrlParser: true,
+//     // this is for unified topology and it is true by default and make the driver more efficient.
+//     useUnifiedTopology: true,
+//     useCreateIndex: true,
+//   })
+//   .then(() => console.log("working"))
+//   .catch((err) => console.log(err));
+// const studentSchema = new mongoose.Schema({
+//   name: { type: String, required: true },
+//   age: { type: Number, required: true },
+//   id: { type: Number, required: true, unique: true },
+// });
+// // making a model and that model is the object that will be used to do the CRUD operations.
+// const StudentModel = new mongoose.model("Employee", studentSchema, "Employee");
 
-StudentModel.find()
-  .then((result) => console.log(result))
-  .catch((err) => console.log(err));
-StudentModel.find({ name: /^m/ })
-  .select({ name: 1 })
-  .sort({ name: 1 })
-  .then((result) => console.log(result));
-StudentModel.find()
-  .or({ name: "mohamed" }, { name: "omer" })
-  .select({ name: 1 })
-  .sort({ name: 1 })
-  .then((result) => console.log(result));
+// StudentModel.find()
+//   .then((result) => console.log(result))
+//   .catch((err) => console.log(err));
+// StudentModel.find({ name: /^m/ })
+//   .select({ name: 1 })
+//   .sort({ name: 1 })
+//   .then((result) => console.log(result));
+// StudentModel.find()
+//   .or({ name: "mohamed" }, { name: "omer" })
+//   .select({ name: 1 })
+//   .sort({ name: 1 })
+//   .then((result) => console.log(result));
 app.listen(port, () => console.log(`working on http://localhost:${port}`));
