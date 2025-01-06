@@ -19,11 +19,11 @@ const schema = {
     age: { type: "integer" },
   },
 };
-const students = [
-  { name: "Ali", age: 14 },
-  { name: "Ahmed", age: 18 },
-  { name: "Omer", age: 34 },
-];
+// const students = [
+//   { name: "Ali", age: 14 },
+//   { name: "Ahmed", age: 18 },
+//   { name: "Omer", age: 34 },
+// ];
 // we use this middleware because the res.body() is going to be undefined that middleware allow express to read the body that is send with the post, put and patch requests.
 // Built in middleware
 app.use(express.urlencoded({ extended: true }));
@@ -136,4 +136,11 @@ app.get("/cookie", (req, res) => {
 //   .select({ name: 1 })
 //   .sort({ name: 1 })
 //   .then((result) => console.log(result));
+dotenv.config();
+// we put that here because we don't wanna every time you send or get a response for the database you will start a new connection.
+mongoose
+  .connect(`${process.env.DatabaseLink}students`)
+  .then(() => console.log("Connected to MongoDB"))
+  .catch((err) => console.log(err));
+
 app.listen(port, () => console.log(`working on http://localhost:${port}`));

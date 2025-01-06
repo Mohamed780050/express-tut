@@ -1,21 +1,5 @@
-import fs from "fs/promises";
-import path from "path";
-import dotenv from "dotenv";
-import mongoose from "mongoose";
-dotenv.config();
-mongoose
-  .connect(`${process.env.DatabaseLink}students`)
-  .then(() => console.log("Connected to MongoDB"))
-  .catch((err) => console.log(err));
-const studentSchema = new mongoose.Schema(
-  {
-    id: { type: Number, required: true, unique: true },
-    name: { type: String, required: true },
-    age: { type: Number, required: true },
-  },
-  { versionKey: false }
-);
-const StudentModel = new mongoose.model("Students", studentSchema, "Students");
+import studentDB from "./database/studentDB.js";
+
 class Student {
   constructor(id, name, age) {
     this.id = id;
@@ -24,7 +8,7 @@ class Student {
   }
   static async getStudents() {
     try {
-      const data = await StudentModel.find();
+      const data = await studentDB.find();
       return data;
     } catch (err) {
       console.log(err);
@@ -32,7 +16,7 @@ class Student {
   }
   async saveStudent() {
     try {
-      await StudentModel.create({
+      await studentDB.create({
         id: this.id,
         name: this.name,
         age: this.age,
