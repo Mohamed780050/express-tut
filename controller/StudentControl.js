@@ -22,10 +22,38 @@ async function addNewUser(req, res) {
 async function getStudentById(req, res) {
   try {
     const { id } = req.params;
-    const user = await Students.getStudentById(id);
-    res.json(user);
+    const response = await Students.getStudentById(id);
+    res.status(response.statusCode).send(response.data);
   } catch (err) {
     console.log(err);
   }
 }
-export default { getAllStudent, addNewUser, getStudentById };
+async function updateAStudent(req, res) {
+  try {
+    const { id } = req.body;
+    const response = await Students.getStudentById(id);
+    res.status(response.statusCode).send(response.data);
+  } catch (err) {
+    console.log(err);
+  }
+}
+async function deleteAStudent(req, res) {
+  try {
+    const { id } = req.params;
+    const check = await Students.getStudentById(id);
+    if (check.statusCode === 404)
+      return res.status(check.statusCode).send(check.data);
+    const response = await Students.deleteStudent(id);
+    res.status(response.statusCode).send(response.data);
+  } catch (err) {
+    console.log(err);
+  }
+}
+
+export default {
+  getAllStudent,
+  addNewUser,
+  getStudentById,
+  updateAStudent,
+  deleteAStudent,
+};

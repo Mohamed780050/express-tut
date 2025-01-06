@@ -28,7 +28,16 @@ class Student {
   static async getStudentById(id) {
     try {
       const data = await studentDB.findOne({ id: id });
-      return data;
+      if (!data) return { statusCode: 404, data: "Student not found" };
+      return { statusCode: 200, data: data };
+    } catch (err) {
+      console.log(err);
+    }
+  }
+  static async deleteStudent(id) {
+    try {
+      await studentDB.deleteOne({ id: id });
+      return { statusCode: 200, data: "Student deleted successfully" };
     } catch (err) {
       console.log(err);
     }
