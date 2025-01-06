@@ -25,6 +25,14 @@ class Student {
       console.log(err);
     }
   }
+  static async getStudentById(id) {
+    try {
+      const data = await studentDB.findOne({ id: id });
+      return data;
+    } catch (err) {
+      console.log(err);
+    }
+  }
 }
 
 export default Student;
